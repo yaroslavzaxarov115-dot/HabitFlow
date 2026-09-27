@@ -17,9 +17,3 @@
 - **SQLite** — база данных
 - **matplotlib** — графики (в разработке)
 
-## Установка
-
-```bash
-git clone https://github.com/ТВОЙ_НИК/HabitFlow.git
-cd HabitFlow
-pip install -r requirements.txt
