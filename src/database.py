@@ -15,7 +15,7 @@ _db_check = os.path.join(
 )
 if os.path.exists(_db_check):
     os.remove(_db_check)
-    print(f"[HACK] Удалил старую базу: {_db_check}")
+    print(f"[HACK] Удаление старой базы: {_db_check}")
 #конец удаления
 
 
