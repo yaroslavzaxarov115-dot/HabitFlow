@@ -8,7 +8,7 @@ import sqlite3
 import os
 from datetime import datetime
 
-# === ВРЕМЕННЫЙ ХАК — УДАЛЯЕМ БАЗУ ПРИ КАЖДОМ ЗАПУСКЕ ===
+# УДАЛЯЕМ БАЗУ ПРИ КАЖДОМ ЗАПУСКЕ 
 _db_check = os.path.join(
     os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
     "data", "test_habits.db"
@@ -16,7 +16,7 @@ _db_check = os.path.join(
 if os.path.exists(_db_check):
     os.remove(_db_check)
     print(f"[HACK] Удалил старую базу: {_db_check}")
-# === КОНЕЦ ХАКА ===
+#конец удаления
 
 
 class Database:
