@@ -37,7 +37,7 @@ class HabitFlowApp:
         self.tree.heading("id", text="№")
         self.tree.heading("name", text="Привычка")
         self.tree.heading("streak", text="Серия")
-        self.tree.heading("percent", text="30 дней")
+        self.tree.heading("percent", text="За месяц")
         self.tree.heading("total", text="Всего")
         self.tree.heading("last", text="Последняя")
 
@@ -81,7 +81,7 @@ class HabitFlowApp:
                 number,
                 habit.name,
                 f"{habit.streak} дн.",
-                f"{habit.percent_30_days}%",
+                f"{habit.percent_month}%",
                 habit.total_marks,
                 last,
             ))

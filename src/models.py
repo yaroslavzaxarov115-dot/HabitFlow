@@ -112,9 +112,15 @@ class Habit:        # модель привычки, данные + вычисл
         return streak
 
     def _percent_in_month(self, year, month):
-        """Процент выполнения в месяце."""
+        """Процент выполнения в месяце (за прошедшие дни)."""
         count = len(self._marks_in_month(year, month))
         days = self._days_in_month(year, month)
+
+        # Если это текущий месяц — считаем по прошедшим дням
+        today = datetime.now()
+        if year == today.year and month == today.month:
+            days = today.day
+
         return min(round(count / days * 100), 100)
 
     @staticmethod
