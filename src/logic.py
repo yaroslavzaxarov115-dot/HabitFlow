@@ -61,16 +61,19 @@ class HabitManager:     # управление привычками, загру�
     def get_all(self):      # возращает список всех привычек
         return self.habits
 
-    def get_stats(self, habit_id):      # статистика по привычке (словарь) или None
+    def get_stats(self, habit_id):
+        """Статистика по привычке или None."""
         habit = self.get_habit(habit_id)
         if habit is None:
             return None
         return {
             "name": habit.name,
             "streak": habit.streak,
-            "percent": habit.percent_30_days,
+            "percent": habit.percent_month,
+            "best": habit.best_streak,
             "total": habit.total_marks,
             "last_mark": habit.last_mark_date,
+            "months": habit.months_stats,
         }
 
     @staticmethod
@@ -88,7 +91,7 @@ if __name__ == "__main__":
     if os.path.exists(test_db):
         os.remove(test_db)
 
-    print("Тестирование HabitMagager... \n")
+    print("Тестирование HabitManager... \n")
 
     db = Database(test_db)
     manager = HabitManager(db)
@@ -116,13 +119,19 @@ if __name__ == "__main__":
     print("тест 4. отметка...")
     print(f"Отметка: {manager.mark_habit(1)}  (ожидается True)")
     print(f"Порторная: {manager.mark_habit(1)} (ожидается false)")
-    print(f"серия: {manager.get_habit(1)}\n")
+    print(f"серия: {manager.get_habit(1).streak}\n")
 
-    # test 5 status
-    print("тест 5 статистика...")
+    # тест 5. удаление
+    print("тест 5. удаление...")
     manager.delete_habit(1)
-    print(f"Осталось: {len(manager.get_all())}")
-    for habit in manager.get_all():
-        print(f"    {habit}")
+
+    # тест 6. статистика
+    print("\nтест 6. статистика...")
+    stats = manager.get_stats(2)
+    if stats:
+        for k, v in stats.items():
+            if k != "months":  # months — длинный список, пропустим
+                print(f"  {k}: {v}")
+        print(f"  месяцев в истории: {len(stats['months'])}")
 
     print("\nВсе тесты завершены.")
