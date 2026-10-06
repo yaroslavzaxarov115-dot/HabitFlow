@@ -133,24 +133,74 @@ class HabitFlowApp:
             self.refresh()
 
     def on_stats(self):
-        # показывает статистику привычки
+        """Открывает окно со статистикой привычки."""
         habit_id = self._selected_id()
         if habit_id is None:
-            messagebox.showwarning("Ошибка", "Выберите привычку")
+            messagebox.showwarning("Ошибка", "Выбери привычку")
             return
 
         stats = self.manager.get_stats(habit_id)
         if stats is None:
             return
 
-        text = (
-            f"Привычка: {stats['name']}\n\n"
-            f"Серия: {stats['streak']}дн.\n"
-            f"Прочент за 30 дней: {stats['percent']}%\n"
-            f"Всего отметок: {stats['total']}\n"
-            f"Последняя отметка: {stats['last_mark'] or '-'}"
-        )
-        messagebox.showinfo("Статистика", text)
+        # Создаём новое окно
+        win = tk.Toplevel(self.root)
+        win.title(f"Статистика: {stats['name']}")
+        win.geometry("500x500")
+
+        # --- Сводка сверху ---
+        summary = ttk.Frame(win, padding=15)
+        summary.pack(fill="x")
+
+        ttk.Label(
+            summary,
+            text=f"Всего отметок: {stats['total']}",
+            font=("Arial", 12)
+        ).pack(anchor="w")
+
+        ttk.Label(
+            summary,
+            text=f"Лучшая серия: {stats['best']} дн.",
+            font=("Arial", 12)
+        ).pack(anchor="w")
+
+        # --- Таблица месяцев ---
+        frame = ttk.Frame(win, padding=10)
+        frame.pack(fill="both", expand=True)
+
+        columns = ("month", "count", "percent", "streak")
+        tree = ttk.Treeview(frame, columns=columns, show="headings", height=12)
+
+        tree.heading("month", text="Месяц")
+        tree.heading("count", text="Отметок")
+        tree.heading("percent", text="Процент")
+        tree.heading("streak", text="Серия")
+
+        tree.column("month", width=150)
+        tree.column("count", width=80, anchor="center")
+        tree.column("percent", width=80, anchor="center")
+        tree.column("streak", width=80, anchor="center")
+
+        # Скроллбар
+        scrollbar = ttk.Scrollbar(frame, orient="vertical", command=tree.yview)
+        tree.configure(yscrollcommand=scrollbar.set)
+
+        tree.pack(side="left", fill="both", expand=True)
+        scrollbar.pack(side="right", fill="y")
+
+        # Заполняем месяцами
+        for m in stats["months"]:
+            tree.insert("", "end", values=(
+                m["name"],
+                m["count"],
+                f"{m['percent']}%",
+                f"{m['streak']} дн.",
+            ))
+
+        # --- Кнопка Закрыть ---
+        ttk.Button(win, text="Закрыть", command=win.destroy).pack(pady=10)
+
+
 
     def toggle_there(self):
         # переключает светлую-темную тему
