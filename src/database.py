@@ -8,15 +8,15 @@ import sqlite3
 import os
 from datetime import datetime
 
-# === ВРЕМЕННЫЙ ХАК — УДАЛЯЕМ БАЗУ ПРИ КАЖДОМ ЗАПУСКЕ ===
+# УДАЛЯЕМ БАЗУ ПРИ КАЖДОМ ЗАПУСКЕ 
 _db_check = os.path.join(
     os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
     "data", "test_habits.db"
 )
 if os.path.exists(_db_check):
     os.remove(_db_check)
-    print(f"[HACK] Удалил старую базу: {_db_check}")
-# === КОНЕЦ ХАКА ===
+    print(f"[HACK] Удаление старой базы: {_db_check}")
+#конец удаления
 
 
 class Database:
@@ -66,10 +66,9 @@ class Database:
         conn.commit()
         conn.close()
 
-    # ============================================================
-    #                    ОПЕРАЦИИ С ПРИВЫЧКАМИ
-    # ============================================================
-
+   
+    #  ОПЕРАЦИИ С ПРИВЫЧКАМИ
+   
     def add_habit(self, name):
         """Добавляет привычку, возвращает её ID."""
         conn = self._connect()
@@ -113,9 +112,9 @@ class Database:
         conn.commit()
         conn.close()
 
-    # ============================================================
-    #                     ОПЕРАЦИИ С ОТМЕТКАМИ
-    # ============================================================
+    
+    #   ОПЕРАЦИИ С ОТМЕТКАМИ
+ 
 
     def add_mark(self, habit_id, date=None):
         """
