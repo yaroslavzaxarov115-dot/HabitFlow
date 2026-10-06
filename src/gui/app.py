@@ -200,8 +200,6 @@ class HabitFlowApp:
         # --- Кнопка Закрыть ---
         ttk.Button(win, text="Закрыть", command=win.destroy).pack(pady=10)
 
-
-
     def toggle_there(self):
         # переключает светлую-темную тему
         self.dark_mode = not self.dark_mode
