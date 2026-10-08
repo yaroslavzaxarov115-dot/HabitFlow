@@ -266,7 +266,7 @@ class HabitFlowApp:
         """Скрывает график."""
         self.chart_frame.pack_forget()
         self.show_btn.pack(side="right", padx=5)
-        self.show_btn.configure(text="👁 Показать")
+        self.show_btn.configure(text=" Показать")
 
     def show_all_panels(self):
         """Показывает скрытые панели."""
