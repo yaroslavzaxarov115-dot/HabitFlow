@@ -357,6 +357,9 @@ class HabitFlowApp:
         win = tk.Toplevel(self.root)
         win.title(f"Статистика: {stats['name']}")
         win.geometry("500x500")
+        # Фон окна в зависимости от темы
+        bg = "#1e1e1e" if self.dark_mode else "#f0f0f0"
+        win.configure(bg=bg)
 
         # --- Сводка сверху ---
         summary = ttk.Frame(win, padding=15)
@@ -408,7 +411,11 @@ class HabitFlowApp:
             ))
 
         # --- Кнопка Закрыть ---
-        ttk.Button(win, text="Закрыть", command=win.destroy).pack(pady=10)
+
+        btn_frame = tk.Frame(win, bg=bg)
+        btn_frame.pack(fill="x", pady=10)
+
+        ttk.Button(btn_frame, text="Закрыть", command=win.destroy).pack()
 
     def toggle_theme(self):
         # переключает светлую-темную тему
